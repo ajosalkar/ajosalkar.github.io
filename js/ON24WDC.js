@@ -51,7 +51,7 @@
         };
         var attendee_cols = [{
             id: "eventid",
-            dataType: tableau.dataTypeEnum.int
+            dataType: tableau.dataTypeEnum.string
         }, {
             id: "email",
             alias: "email",
@@ -95,7 +95,7 @@
 
         var registrant_cols = [{
             id: "eventid",
-            dataType: tableau.dataTypeEnum.int
+            dataType: tableau.dataTypeEnum.string
         }, {
             id: "firstname",
             alias: "firstname",
