@@ -121,10 +121,69 @@
             columns: registrant_cols
         };
 
-        schemaCallback([event_table, attendee_table, registrant_table]);
+        var survey_cols = [{
+            id: "eventid",
+            dataType: tableau.dataTypeEnum.string
+            
+        }, {
+            id: "surveyid",
+            alias: "surveyid",
+            dataType: tableau.dataTypeEnum.string
+        },  {
+            id: "surveycode",
+            alias: "surveycode",
+            dataType: tableau.dataTypeEnum.string
+        }, {
+            id: "question",
+            alias: "question",
+            dataType: tableau.dataTypeEnum.string
+        },
+        {
+            id: "responses",
+            alias: "responses",
+            dataType: tableau.dataTypeEnum.int
+        },
+        {
+            id: "choice1",
+            alias: "choice1",
+            dataType: tableau.dataTypeEnum.float
+        },
+         {
+            id: "choice2",
+            alias: "choice2",
+            dataType: tableau.dataTypeEnum.float
+        },
+         {
+            id: "choice3",
+            alias: "choice3",
+            dataType: tableau.dataTypeEnum.float
+        },
+        {
+            id: "choice4",
+            alias: "choice4",
+            dataType: tableau.dataTypeEnum.float
+        },
+         {
+            id: "choice5",
+            alias: "choice5",
+            dataType: tableau.dataTypeEnum.float
+        }];
+
+
+        var survey_table = {
+            id: "Survey",
+            alias: "Survey",
+            columns: survey_cols
+        };
+
+
+        schemaCallback([event_table, attendee_table, registrant_table, survey_table]);
         
     };
 
+
+    eventIDs = [];
+    var counter = 1;
     // Download the data
     myConnector.getData = function(table, doneCallback) {
 
@@ -160,7 +219,7 @@ async function ExecuteRequest(url, data) {
         _.mergeWith(data, response.data, customizer);
        
         // We check if there is more paginated data to be obtained
-        if (response.data.currentpage <response.data.pagecount-1) {
+        if ((url.search('survey')==-1) && response.data.currentpage <response.data.pagecount-1) {
             let page = response.data.currentpage+1;
        
         
@@ -181,6 +240,15 @@ async function ExecuteRequest(url, data) {
           
             return ExecuteRequest(newurl, data);
         }
+        if((url.search('survey')!=-1)){
+            //for (var i = 1, len = eventIDs.length; i < len; i++)
+            while(counter<eventIDs.length){
+                let newurl = event_URL+'/'+eventIDs[counter]+'/survey';
+                counter++;
+                return ExecuteRequest(newurl, data);
+            }
+        }
+
     });
 
     return data;
@@ -281,6 +349,44 @@ if(table.tableInfo.id === 'Event') {
                 }
 });
 }
+
+if(table.tableInfo.id === 'Survey') {
+    console.log('first event: '+eventIDs[0]);
+
+    const survey_promise = ExecuteRequest("http://localhost:8080/https://api.on24.com/v2/client/49268/event/"+eventIDs[0]+"/survey").then(data => {
+    
+      if (table.tableInfo.id == "Survey") {
+                  var feat = data;
+                
+                     tableData = [];
+                        
+                      // Iterate over the JSON object
+
+                      for(j=0;j<feat.surveys.length;j++){
+                      for (var i = 0, len = feat.surveys[j].surveyquestions.length; i < len-1; i++) {
+                          if(feat.surveys[j].surveyquestions[i].responses>0){
+                      tableData.push({
+                          "eventid": feat.surveys[j].surveyid.substr(0,7),
+                          "surveyid": feat.surveys[j].surveyid,
+                          "surveycode": feat.surveys[j].surveycode,
+                          "question": feat.surveys[j].surveyquestions[i].question,
+                          "responses": feat.surveys[j].surveyquestions[i].responses,
+                          "choice1": feat.surveys[j].surveyquestions[i].surveyanswer[0].percentage || '',
+                          "choice2": feat.surveys[j].surveyquestions[i].surveyanswer[1].percentage || '',
+                          "choice3": feat.surveys[j].surveyquestions[i].surveyanswer[2].percentage || '',
+                          "choice4": feat.surveys[j].surveyquestions[i].surveyanswer[3].percentage || '',
+                          "choice5": feat.surveys[j].surveyquestions[i].surveyanswer[4].percentage || ''
+                      });
+                    }
+                  }
+                }
+      
+                      //table.appendRows(tableData);
+                      chunkData(table, tableData);
+                      doneCallback(); 
+                  }
+  });
+  }
 
 
 
