@@ -330,6 +330,7 @@ if(table.tableInfo.id === 'Event') {
                         //var feat2 = JSON.parse(data);
                     // Iterate over the JSON object
                     for (var i = 0, len = feat.events.length; i < len; i++) {
+                        eventIDs[i]=feat.events[i].eventid;
                     tableData.push({
                         "eventid": feat.events[i].eventid,
                         "description": feat.events[i].description,
@@ -353,7 +354,7 @@ if(table.tableInfo.id === 'Event') {
 if(table.tableInfo.id === 'Survey') {
     console.log('first event: '+eventIDs[0]);
 
-    const survey_promise = ExecuteRequest("http://localhost:8080/https://api.on24.com/v2/client/49268/event/"+eventIDs[0]+"/survey").then(data => {
+    const survey_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event/"+eventIDs[0]+"/survey").then(data => {
     
       if (table.tableInfo.id == "Survey") {
                   var feat = data;
