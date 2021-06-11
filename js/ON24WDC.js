@@ -219,7 +219,7 @@ async function ExecuteRequest(url, data) {
                 'accessTokenSecret': tableau.password
         
                 }
-    }).then(sleeper(1500)).then(response => {
+    }).then(sleeper(1000)).then(response => {
 
         // We merge the returned data with the existing data
         _.mergeWith(data, response.data, customizer);
