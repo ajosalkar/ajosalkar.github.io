@@ -201,6 +201,12 @@ function customizer(objValue, srcValue) {
     }
 }
 
+function sleeper(ms) {
+    return function(x) {
+      return new Promise(resolve => setTimeout(() => resolve(x), ms));
+    };
+  }
+
 async function ExecuteRequest(url, data) {
 
     // As this is a recursive function, we need to be able to pass it the prevous data. Here we either used the passed in data, or we create a new objet to hold our data.
@@ -213,7 +219,7 @@ async function ExecuteRequest(url, data) {
                 'accessTokenSecret': tableau.password
         
                 }
-    }).then(response => {
+    }).then(sleeper(1000)).then(response => {
 
         // We merge the returned data with the existing data
         _.mergeWith(data, response.data, customizer);
