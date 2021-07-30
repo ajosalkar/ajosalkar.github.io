@@ -192,6 +192,7 @@
             const attendee_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/attendee?startDate=2021-05-30';
             const registrant_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/registrant?startDate=2021-05-30';
              const event_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event?startDate=2021-05-30';
+             const survey_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event';
            
            //console.log('Access Token: '+tableau.username);
 
@@ -249,7 +250,7 @@ async function ExecuteRequest(url, data) {
         if((url.search('survey')!=-1)){
             //for (var i = 1, len = eventIDs.length; i < len; i++)
             while(counter<eventIDs.length){
-                let newurl = event_URL+'/'+eventIDs[counter]+'/survey';
+                let newurl = survey_URL+'/'+eventIDs[counter]+'/survey';
                 counter++;
                 return ExecuteRequest(newurl, data);
             }
