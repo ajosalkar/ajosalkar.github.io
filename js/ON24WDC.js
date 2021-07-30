@@ -189,9 +189,9 @@
 
      console.log('Table is : '+table.tableInfo.id);
             
-            const attendee_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/attendee';
-            const registrant_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/registrant';
-             const event_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event';
+            const attendee_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/attendee?startDate=2021-05-30';
+            const registrant_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/registrant?startDate=2021-05-30';
+             const event_URL = 'https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event?startDate=2021-05-30';
            
            //console.log('Access Token: '+tableau.username);
 
@@ -241,7 +241,7 @@ async function ExecuteRequest(url, data) {
                 useURL = registrant_URL;
             }
         
-            let newurl = useURL+'?pageoffset='+page;
+            let newurl = useURL+'&pageoffset='+page;
            // console.log('Recursive request: '+newurl);
           
             return ExecuteRequest(newurl, data);
@@ -264,7 +264,7 @@ async function ExecuteRequest(url, data) {
 
 if(table.tableInfo.id === 'Attendee') {
 
-const attendee_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/attendee").then(data => {
+const attendee_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/attendee?startDate=2021-05-30").then(data => {
     
     if (table.tableInfo.id == "Attendee") {
                 var feat = data;
@@ -294,7 +294,7 @@ const attendee_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/http
 
 if(table.tableInfo.id === 'Registrant') {
 
-    const attendee_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/registrant").then(data => {
+    const attendee_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/registrant?startDate=2021-05-30").then(data => {
         
         if (table.tableInfo.id == "Registrant") {
                     var feat = data;
@@ -324,7 +324,7 @@ if(table.tableInfo.id === 'Registrant') {
 
 if(table.tableInfo.id === 'Event') {
 
-  const event_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event").then(data => {
+  const event_promise = ExecuteRequest("https://cors-for-wdc.herokuapp.com/https://api.on24.com/v2/client/49268/event?startDate=2021-05-30").then(data => {
   
     if (table.tableInfo.id == "Event") {
                 var feat = data;
