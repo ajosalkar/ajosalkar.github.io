@@ -113,6 +113,25 @@
             id: "company",
             alias: "company",
             dataType: tableau.dataTypeEnum.string
+        },
+        {
+            id: "zip",
+            dataType: tableau.dataTypeEnum.int
+        }
+        ,
+        {
+            id: "city",
+            dataType: tableau.dataTypeEnum.string
+        }
+        ,
+        {
+            id: "state",
+            dataType: tableau.dataTypeEnum.string
+        }
+        ,
+        {
+            id: "country",
+            dataType: tableau.dataTypeEnum.string
         }];
 
         var registrant_table = {
@@ -309,7 +328,11 @@ if(table.tableInfo.id === 'Registrant') {
                                 "firstname": feat.registrants[i].firstname,
                                 "lastname": feat.registrants[i].lastname,
                                 "email": feat.registrants[i].email,
-                                "company": feat.registrants[i].company
+                                "company": feat.registrants[i].company,
+                                "zip": feat.registrants[i].zip,
+                                "city": feat.registrants[i].city,
+                                "state": feat.registrants[i].state,
+                                "country": feat.registrants[i].country
                             });
                         }
         
